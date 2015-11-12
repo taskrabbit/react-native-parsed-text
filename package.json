@@ -1,0 +1,27 @@
+{
+  "name": "react-native-parsed-text",
+  "version": "1.0.0",
+  "description": "Parse text and make them into multiple React Native Text elements",
+  "main": "src/ParsedText.js",
+  "scripts": {
+    "test": "mocha --recursive --compilers js:babel/register"
+  },
+  "keywords": [
+    "text",
+    "react-native",
+    "react"
+  ],
+  "babel": {
+    "stage": 0
+  },
+  "devDependencies": {
+    "babel": "5.8.29",
+    "babel-eslint": "4.1.4",
+    "chai": "3.4.0",
+    "eslint": "1.8.0",
+    "eslint-plugin-react": "3.7.1",
+    "mocha": "2.3.3"
+  },
+  "author": "jrichardlai",
+  "license": "MIT"
+}
