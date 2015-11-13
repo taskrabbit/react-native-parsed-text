@@ -8,6 +8,14 @@
     "prepublish": "npm run build",
     "test": "mocha --recursive --compilers js:babel/register"
   },
+  "bugs": {
+    "url": "https://github.com/taskrabbit/react-native-parsed-text/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/taskrabbit/react-native-parsed-text.git"
+  },
+  "homepage": "https://github.com/taskrabbit/react-native-parsed-text#readme",
   "keywords": [
     "text",
     "react-native",
