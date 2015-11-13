@@ -1,4 +1,15 @@
-# Example
+# React Native Parsed Text
+
+This library allows you to parse a text and extract parts using a `RegExp` or predefined patterns.
+Currently there is 2 predefined types: `url` and `phone`.
+
+All the props are passed down to a new `Text` Component if there is a matching text. If those are functions they will receive as param the value of the text.
+
+## Install
+
+`npm install --save react-native-parsed-text`
+
+## Example
 
 ```javascript
 class Example extends React.Component {
@@ -80,9 +91,9 @@ const styles = StyleSheet.create({
 });
 ```
 
-![](/assets/screenshot.png)
+![](/https://github.com/taskrabbit/react-native-parsed-text/tree/master/assets/recording.gif)
 
-# TODO
+## TODO
 
-* Add more text
+* README
 * Add nested text parsing
