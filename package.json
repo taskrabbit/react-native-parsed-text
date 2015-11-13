@@ -2,8 +2,10 @@
   "name": "react-native-parsed-text",
   "version": "1.0.0",
   "description": "Parse text and make them into multiple React Native Text elements",
-  "main": "src/ParsedText.js",
+  "main": "lib/ParsedText.js",
   "scripts": {
+    "build": "babel --stage 0 --optional runtime src/ --out-dir lib/",
+    "prepublish": "npm run build",
     "test": "mocha --recursive --compilers js:babel/register"
   },
   "keywords": [
@@ -13,6 +15,9 @@
   ],
   "babel": {
     "stage": 0
+  },
+  "dependencies": {
+    "babel-runtime": "^5.4.3"
   },
   "devDependencies": {
     "babel": "5.8.29",
