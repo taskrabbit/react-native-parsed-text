@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-![](/https://github.com/taskrabbit/react-native-parsed-text/tree/master/assets/recording.gif)
+![](https://cloud.githubusercontent.com/assets/159813/11152673/d5fe86f0-89e8-11e5-8b5e-f3c06bdc1b6b.gif)
 
 ## TODO
 
