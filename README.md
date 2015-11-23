@@ -1,7 +1,7 @@
 # React Native Parsed Text
 
 This library allows you to parse a text and extract parts using a `RegExp` or predefined patterns.
-Currently there is 3 predefined types: `url`, `phone` and `email`.
+Currently there are 3 predefined types: `url`, `phone` and `email`.
 
 All the props are passed down to a new `Text` Component if there is a matching text. If those are functions they will receive as param the value of the text.
 
