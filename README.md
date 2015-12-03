@@ -35,6 +35,10 @@ class Example extends React.Component {
     AlertIOS.alert(`send email to ${email}`);
   }
 
+  renderText(string) {
+    return `^^${string}^^`;
+  }
+  
   render() {
     return (
       <View style={styles.container}>
@@ -42,12 +46,13 @@ class Example extends React.Component {
           style={styles.text}
           parse={
             [
-              {type: 'url',          style: styles.url, onPress: this.handleUrlPress},
-              {type: 'phone',        style: styles.phone, onPress: this.handlePhonePress},
-              {type: 'email',        style: styles.email, onPress: this.handleEmailPress},
-              {pattern: /Bob|David/, style: styles.name, onPress: this.handleNamePress},
-              {pattern: /42/,        style: styles.magicNumber},
-              {pattern: /#(\w+)/,    style: styles.hashTag},
+              {type: 'url',                   style: styles.url, onPress: this.handleUrlPress},
+              {type: 'phone',                 style: styles.phone, onPress: this.handlePhonePress},
+              {type: 'email',                 style: styles.email, onPress: this.handleEmailPress},
+              {pattern: /Bob|David/,          style: styles.name, onPress: this.handleNamePress},
+              {pattern: /Bob|David/,          style: styles.name, onPress: this.handleNamePress, renderChildren: this.renderText},
+              {pattern: /42/,                 style: styles.magicNumber},
+              {pattern: /#(\w+)/,             style: styles.hashTag},
             ]
           }
         >
@@ -110,6 +115,13 @@ const styles = StyleSheet.create({
 
 `npm install --save react-native-parsed-text`
 
+## Test using mocha
+
+```
+mocha --compilers js:babel/register
+```
+
 ## TODO
 
 * Add nested text parsing
+

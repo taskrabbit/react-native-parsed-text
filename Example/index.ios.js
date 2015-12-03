@@ -11,7 +11,7 @@ const {
   View,
   LinkingIOS,
   AlertIOS,
-} = React;
+  } = React;
 
 import ParsedText from 'react-native-parsed-text';
 
@@ -34,6 +34,10 @@ class Example extends React.Component {
     AlertIOS.alert(`send email to ${email}`);
   }
 
+  renderText(string) {
+    return `^^${string}^^`;
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -45,11 +49,12 @@ class Example extends React.Component {
               {type: 'phone',        style: styles.phone, onPress: this.handlePhonePress},
               {type: 'email',        style: styles.email, onPress: this.handleEmailPress},
               {pattern: /Bob|David/, style: styles.name, onPress: this.handleNamePress},
+              {pattern: /Bob|David/, style: styles.name, onPress: this.handleNamePress, renderText: this.renderText},
               {pattern: /42/,        style: styles.magicNumber},
               {pattern: /#(\w+)/,    style: styles.hashTag},
             ]
           }
-        >
+          >
           Hello this is an example of the ParsedText, links like http://www.google.com or http://www.facebook.com are clickable and phone number 444-555-6666 can call too.
           But you can also do more with this package, for example Bob will change style and David too. foo@gmail.com
           And the magic number is 42!

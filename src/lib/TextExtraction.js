@@ -79,9 +79,14 @@ class TextExtraction {
       }
     });
 
+    var children = text;
+    if (props.renderText && typeof props.renderText === 'function') {
+      children = props.renderText(children);
+    }
+
     return {
       ...props,
-      children: text,
+      children: children,
       _matched: true,
     };
   }
