@@ -8,7 +8,7 @@ All the props are passed down to a new `Text` Component if there is a matching t
 I you specify a renderText method, it will be called to change the displayed children.
 
 eg: 
-Your str is ```'Mention [@michel:5455345]'``` where 5455345 is ID of this user and @user the value to display on interface.
+Your str is ```'Mention [@michel:5455345]'``` where 5455345 is ID of this user and @michel the value to display on interface.
 Your pattern for ID & username extraction : ```/\[(@[^:]+):([^\]]+)\]/i```
 Your renderText method : 
 ```
