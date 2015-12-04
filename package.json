@@ -1,6 +1,6 @@
 {
   "name": "react-native-parsed-text",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Parse text and make them into multiple React Native Text elements",
   "main": "lib/ParsedText.js",
   "scripts": {

@@ -90,32 +90,30 @@ describe('TextExtraction', () => {
 
   describe('renderText prop', () => {
     it('checks that renderText is a function', (done) => {
-      const textExtraction = new TextExtraction('hello Bob, David, Michel', [
-        { pattern: /Bob|David/, renderText: 'foo'}
+      const textExtraction = new TextExtraction('Mention [@michel:561316513]', [
+        { pattern: /\[(@[^:]+):([^\]]+)\]/i, renderText: 'foo'}
       ]);
 
       const parsedText = textExtraction.parse();
 
-      expect(parsedText[0]).to.eql({children: 'hello '});
-      expect(parsedText[1].children).to.eql('Bob');
-      expect(parsedText[2].children).to.eql(', ');
-      expect(parsedText[3].children).to.eql('David');
-      expect(parsedText[4].children).to.eql(', Michel');
+      expect(parsedText[0]).to.eql({children: 'Mention '});
+      expect(parsedText[1]).to.eql({children: '[@michel:561316513]'});
 
       done();
     });
     it('pass the values to the callbacks', (done) => {
-      const textExtraction = new TextExtraction('hello Bob, David, Michel', [
-        { pattern: /Bob|David/, renderText: (string) => { return `^^${string}^^`}}
+      const textExtraction = new TextExtraction('Mention [@michel:561316513]', [
+        { pattern: /\[(@[^:]+):([^\]]+)\]/i, renderText: (string) => {
+          let pattern = /\[(@[^:]+):([^\]]+)\]/i;
+          let match = string.match(pattern);
+          return `^^${match[1]}^^`;
+        }}
       ]);
 
       const parsedText = textExtraction.parse();
 
-      expect(parsedText[0]).to.eql({children: 'hello '});
-      expect(parsedText[1].children).to.eql('^^Bob^^');
-      expect(parsedText[2].children).to.eql(', ');
-      expect(parsedText[3].children).to.eql('^^David^^');
-      expect(parsedText[4].children).to.eql(', Michel');
+      expect(parsedText[0]).to.eql({children: 'Mention '});
+      expect(parsedText[1].children).to.eql('^^@michel^^');
 
       done();
     });

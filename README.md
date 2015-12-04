@@ -5,6 +5,22 @@ Currently there are 3 predefined types: `url`, `phone` and `email`.
 
 All the props are passed down to a new `Text` Component if there is a matching text. If those are functions they will receive as param the value of the text.
 
+I you specify a renderText method, it will be called to change the displayed children.
+
+eg: 
+Your str is ```'Mention [@michel:5455345]'``` where 5455345 is ID of this user and @user the value to display on interface.
+Your pattern for ID & username extraction : ```/\[(@[^:]+):([^\]]+)\]/i```
+Your renderText method : 
+```
+renderText(string) {
+    let pattern = /\[(@[^:]+):([^\]]+)\]/i;
+    let match = string.match(pattern);
+    return `^^${match[1]}^^`;
+  }
+```
+Displayed text will be : ```Mention ^^@michel^^```
+
+
 ## Proptypes
 
 `ParsedText` can receive [Text PropTypes](https://facebook.github.io/react-native/docs/text.html).
@@ -36,7 +52,9 @@ class Example extends React.Component {
   }
 
   renderText(string) {
-    return `^^${string}^^`;
+    let pattern = /\[(@[^:]+):([^\]]+)\]/i;
+    let match = string.match(pattern);
+    return `^^${match[1]}^^`;
   }
   
   render() {
@@ -46,13 +64,13 @@ class Example extends React.Component {
           style={styles.text}
           parse={
             [
-              {type: 'url',                   style: styles.url, onPress: this.handleUrlPress},
-              {type: 'phone',                 style: styles.phone, onPress: this.handlePhonePress},
-              {type: 'email',                 style: styles.email, onPress: this.handleEmailPress},
-              {pattern: /Bob|David/,          style: styles.name, onPress: this.handleNamePress},
-              {pattern: /Bob|David/,          style: styles.name, onPress: this.handleNamePress, renderChildren: this.renderText},
-              {pattern: /42/,                 style: styles.magicNumber},
-              {pattern: /#(\w+)/,             style: styles.hashTag},
+              {type: 'url',                       style: styles.url, onPress: this.handleUrlPress},
+              {type: 'phone',                     style: styles.phone, onPress: this.handlePhonePress},
+              {type: 'email',                     style: styles.email, onPress: this.handleEmailPress},
+              {pattern: /Bob|David/,              style: styles.name, onPress: this.handleNamePress},
+              {pattern: /\[(@[^:]+):([^\]]+)\]/i, style: styles.username, onPress: this.handleNamePress, renderText: this.renderText},
+              {pattern: /42/,                     style: styles.magicNumber},
+              {pattern: /#(\w+)/,                 style: styles.hashTag},
             ]
           }
         >
@@ -96,6 +114,11 @@ const styles = StyleSheet.create({
   name: {
     color: 'red',
   },
+  
+  username: {
+    color: 'green',
+    fontWeight: 'bold'
+  },
 
   magicNumber: {
     fontSize: 42,
@@ -114,12 +137,6 @@ const styles = StyleSheet.create({
 ## Install
 
 `npm install --save react-native-parsed-text`
-
-## Test using mocha
-
-```
-mocha --compilers js:babel/register
-```
 
 ## TODO
 
