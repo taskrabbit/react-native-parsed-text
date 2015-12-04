@@ -5,12 +5,20 @@ Currently there are 3 predefined types: `url`, `phone` and `email`.
 
 All the props are passed down to a new `Text` Component if there is a matching text. If those are functions they will receive as param the value of the text.
 
-I you specify a renderText method, it will be called to change the displayed children.
+## Proptypes
 
-eg: 
+`ParsedText` can receive [Text PropTypes](https://facebook.github.io/react-native/docs/text.html).
+
+`parse`: Array of parsed text.
+* to use the predefined type: `{type: 'url'}`.
+* to use your own `RegExp`: `{pattern: /something/}`.
+
+`renderText`: Function called to change the displayed children.
+
+eg:
 Your str is ```'Mention [@michel:5455345]'``` where 5455345 is ID of this user and @michel the value to display on interface.
 Your pattern for ID & username extraction : ```/\[(@[^:]+):([^\]]+)\]/i```
-Your renderText method : 
+Your renderText method :
 ```
 renderText(string) {
     let pattern = /\[(@[^:]+):([^\]]+)\]/i;
@@ -19,15 +27,6 @@ renderText(string) {
   }
 ```
 Displayed text will be : ```Mention ^^@michel^^```
-
-
-## Proptypes
-
-`ParsedText` can receive [Text PropTypes](https://facebook.github.io/react-native/docs/text.html).
-
-`parse`: Array of parsed text.
-* to use the predefined type: `{type: 'url'}`.
-* to use your own `RegExp`: `{pattern: /something/}`.
 
 ## Example
 
@@ -56,7 +55,7 @@ class Example extends React.Component {
     let match = string.match(pattern);
     return `^^${match[1]}^^`;
   }
-  
+
   render() {
     return (
       <View style={styles.container}>
@@ -114,7 +113,7 @@ const styles = StyleSheet.create({
   name: {
     color: 'red',
   },
-  
+
   username: {
     color: 'green',
     fontWeight: 'bold'
@@ -141,4 +140,3 @@ const styles = StyleSheet.create({
 ## TODO
 
 * Add nested text parsing
-
