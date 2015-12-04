@@ -70,7 +70,7 @@ class TextExtraction {
     let props = {};
 
     Object.keys(matchedPattern).forEach((key) => {
-      if (key === 'pattern') { return; }
+      if (key === 'pattern' || key === 'renderText') { return; }
 
       if (typeof matchedPattern[key] === 'function') {
         props[key] = () => matchedPattern[key](text);
@@ -79,9 +79,14 @@ class TextExtraction {
       }
     });
 
+    var children = text;
+    if (matchedPattern.renderText && typeof matchedPattern.renderText === 'function') {
+      children = matchedPattern.renderText(children);
+    }
+
     return {
       ...props,
-      children: text,
+      children: children,
       _matched: true,
     };
   }
