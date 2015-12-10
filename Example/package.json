@@ -5,15 +5,8 @@
   "scripts": {
     "start": "react-native start"
   },
-  "babel": {
-    "whitelist": [
-      "es7.objectRestSpread",
-      "es7.classProperties"
-    ]
-  },
   "dependencies": {
-    "react-native": "^0.14.2",
-    "babel": "5.8.29",
+    "react-native": "^0.16.0",
     "react-native-parsed-text": "file:../"
   }
 }
