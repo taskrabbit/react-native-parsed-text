@@ -2,11 +2,9 @@
   "name": "react-native-parsed-text",
   "version": "0.0.5",
   "description": "Parse text and make them into multiple React Native Text elements",
-  "main": "lib/ParsedText.js",
+  "main": "src/ParsedText.js",
   "scripts": {
-    "build": "babel --stage 0 --optional runtime src/ --out-dir lib/",
-    "prepublish": "npm run build",
-    "test": "mocha --recursive --compilers js:babel/register"
+    "test": "mocha --recursive --compilers js:babel-register"
   },
   "bugs": {
     "url": "https://github.com/taskrabbit/react-native-parsed-text/issues"
@@ -24,19 +22,16 @@
     "react",
     "react-component"
   ],
-  "babel": {
-    "stage": 0
-  },
-  "dependencies": {
-    "babel-runtime": "^5.4.3"
-  },
   "devDependencies": {
-    "babel": "5.8.29",
-    "babel-eslint": "4.1.4",
-    "chai": "3.4.0",
-    "eslint": "1.8.0",
-    "eslint-plugin-react": "3.7.1",
-    "mocha": "2.3.3"
+    "babel": "^6.3.13",
+    "babel-eslint": "^4.1.4",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "babel-register": "^6.3.13",
+    "chai": "^3.4.0",
+    "eslint": "^1.8.0",
+    "eslint-plugin-react": "^3.7.1",
+    "mocha": "^2.3.3"
   },
   "author": "jrichardlai",
   "license": "MIT"
