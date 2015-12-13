@@ -18,7 +18,7 @@ const customParseShape = React.PropTypes.shape({
   pattern: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.instanceOf(RegExp)]).isRequired,
 });
 
-class ParsedText extends React.Text {
+class ParsedText extends React.Component {
 
   static displayName = 'ParsedText';
 
