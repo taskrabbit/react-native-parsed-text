@@ -4,49 +4,112 @@
  */
 'use strict';
 
-var React = require('react-native');
-var {
+import React from 'react-native';
+const {
   AppRegistry,
   StyleSheet,
-  Text,
   View,
 } = React;
 
-var Example = React.createClass({
-  render: function() {
+import ParsedText from 'react-native-parsed-text';
+
+class Example extends React.Component {
+  static displayName = 'Example';
+
+  handleUrlPress(url) {
+    console.log(`url: ${url} has been pressed!`);
+  }
+
+  handlePhonePress(phone) {
+    console.log(`phone ${phone} has been pressed!`);
+  }
+
+  handleNamePress(name) {
+    console.log(`Hello ${name}`);
+  }
+
+  handleEmailPress(email) {
+    console.log(`send email to ${email}`);
+  }
+
+  renderText(string) {
+    let pattern = /\[(@[^:]+):([^\]]+)\]/i;
+    let match = string.match(pattern);
+    return `^^${match[1]}^^`;
+  }
+
+  render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
+        <ParsedText
+          style={styles.text}
+          parse={
+            [
+              {type: 'url',                       style: styles.url, onPress: this.handleUrlPress},
+              {type: 'phone',                     style: styles.phone, onPress: this.handlePhonePress},
+              {type: 'email',                     style: styles.email, onPress: this.handleEmailPress},
+              {pattern: /Bob|David/,              style: styles.name, onPress: this.handleNamePress},
+              {pattern: /\[(@[^:]+):([^\]]+)\]/i, style: styles.username, onPress: this.handleNamePress, renderText: this.renderText},
+              {pattern: /42/,                     style: styles.magicNumber},
+              {pattern: /#(\w+)/,                 style: styles.hashTag},
+            ]
+          }
+        >
+          Hello this is an example of the ParsedText, links like http://www.google.com or http://www.facebook.com are clickable and phone number 444-555-6666 can call too.
+          But you can also do more with this package, for example Bob will change style and David too. You should mention [@michel:5455345] about that. foo@gmail.com
+          And the magic number is 42!
+          #react #react-native
+        </ParsedText>
       </View>
     );
   }
-});
+}
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+
+  url: {
+    color: 'red',
+    textDecorationLine: 'underline',
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+
+  email: {
+    textDecorationLine: 'underline',
   },
+
+  text: {
+    color: 'black',
+    fontSize: 15,
+  },
+
+  phone: {
+    color: 'blue',
+    textDecorationLine: 'underline',
+  },
+
+  name: {
+    color: 'red',
+  },
+
+  username: {
+    color: 'green',
+    fontWeight: 'bold',
+  },
+
+  magicNumber: {
+    fontSize: 42,
+    color: 'pink',
+  },
+
+  hashTag: {
+    fontStyle: 'italic',
+  },
+
 });
 
 AppRegistry.registerComponent('Example', () => Example);
