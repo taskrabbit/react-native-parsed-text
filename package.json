@@ -49,7 +49,7 @@
     "babel-plugin-transform-react-display-name": "^6.0.14",
     "babel-plugin-transform-react-jsx": "^6.0.18",
     "babel-plugin-transform-regenerator": "^6.0.18",
-    "babel-register": "^6.3.13",
+    "babel-register": "^6.3.13"
   },
   "devDependencies": {
     "babel-eslint": "^4.1.4",
