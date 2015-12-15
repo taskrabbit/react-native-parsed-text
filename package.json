@@ -22,9 +22,8 @@
     "react",
     "react-component"
   ],
-  "devDependencies": {
+  "dependencies": {
     "babel": "^6.3.13",
-    "babel-eslint": "^4.1.4",
     "babel-plugin-external-helpers-2": "^6.1.4",
     "babel-plugin-syntax-async-functions": "^6.0.14",
     "babel-plugin-syntax-class-properties": "^6.0.14",
@@ -50,7 +49,10 @@
     "babel-plugin-transform-react-display-name": "^6.0.14",
     "babel-plugin-transform-react-jsx": "^6.0.18",
     "babel-plugin-transform-regenerator": "^6.0.18",
-    "babel-register": "^6.3.13",
+    "babel-register": "^6.3.13"
+  },
+  "devDependencies": {
+    "babel-eslint": "^4.1.4",
     "chai": "^3.4.0",
     "eslint": "^1.8.0",
     "eslint-plugin-react": "^3.7.1",
