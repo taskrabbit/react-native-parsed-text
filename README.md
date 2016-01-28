@@ -51,9 +51,10 @@ class Example extends React.Component {
     AlertIOS.alert(`send email to ${email}`);
   }
 
-  renderText(string) {
+  renderText(matchingString, matches) {
+    // matches => ["[@michel:5455345]", "@michel", "5455345"]
     let pattern = /\[(@[^:]+):([^\]]+)\]/i;
-    let match = string.match(pattern);
+    let match = matchingString.match(pattern);
     return `^^${match[1]}^^`;
   }
 
