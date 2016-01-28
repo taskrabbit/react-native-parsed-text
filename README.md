@@ -20,11 +20,12 @@ Your str is ```'Mention [@michel:5455345]'``` where 5455345 is ID of this user a
 Your pattern for ID & username extraction : ```/\[(@[^:]+):([^\]]+)\]/i```
 Your renderText method :
 ```
-renderText(string) {
-    let pattern = /\[(@[^:]+):([^\]]+)\]/i;
-    let match = string.match(pattern);
-    return `^^${match[1]}^^`;
-  }
+renderText(matchingString, matches) {
+  // matches => ["[@michel:5455345]", "@michel", "5455345"]
+  let pattern = /\[(@[^:]+):([^\]]+)\]/i;
+  let match = matchingString.match(pattern);
+  return `^^${match[1]}^^`;
+}
 ```
 Displayed text will be : ```Mention ^^@michel^^```
 

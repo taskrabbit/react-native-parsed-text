@@ -103,9 +103,12 @@ describe('TextExtraction', () => {
     });
     it('pass the values to the callbacks', (done) => {
       const textExtraction = new TextExtraction('Mention [@michel:561316513]', [
-        { pattern: /\[(@[^:]+):([^\]]+)\]/i, renderText: (string) => {
+        { pattern: /\[(@[^:]+):([^\]]+)\]/i, renderText: (string, matches) => {
           let pattern = /\[(@[^:]+):([^\]]+)\]/i;
           let match = string.match(pattern);
+          expect(matches[0]).to.eql("[@michel:561316513]")
+          expect(matches[1]).to.eql("@michel")
+          expect(matches[2]).to.eql("561316513")
           return `^^${match[1]}^^`;
         }}
       ]);
