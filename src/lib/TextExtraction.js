@@ -1,6 +1,6 @@
 class TextExtraction {
   /**
-   * @param {string} text - Text to be parsed
+   * @param {String} text - Text to be parsed
    * @param {Object[]} patterns - Patterns to be used when parsed
    *                              other options than pattern would be added to the parsed content
    * @param {RegExp} patterns[].pattern - RegExp to be used for parsing
@@ -39,7 +39,7 @@ class TextExtraction {
 
           parts.push({children: previousText});
 
-          parts.push(this.getMatchedPart(pattern, matches[0]));
+          parts.push(this.getMatchedPart(pattern, matches[0], matches));
 
           textLeft = textLeft.substr(matches.index + matches[0].length);
         }
@@ -63,10 +63,11 @@ class TextExtraction {
   /**
    * @param {Object} matchedPattern - pattern configuration of the pattern used to match the text
    * @param {RegExp} matchedPattern.pattern - pattern used to match the text
-   * @param {string} text - Text matching the pattern
+   * @param {String} text - Text matching the pattern
+   * @param {String[]} text - Result of the RegExp.exec
    * @return {Object} props for the matched text
    */
-  getMatchedPart(matchedPattern, text) {
+  getMatchedPart(matchedPattern, text, matches) {
     let props = {};
 
     Object.keys(matchedPattern).forEach((key) => {
@@ -79,9 +80,9 @@ class TextExtraction {
       }
     });
 
-    var children = text;
+    let children = text;
     if (matchedPattern.renderText && typeof matchedPattern.renderText === 'function') {
-      children = matchedPattern.renderText(children);
+      children = matchedPattern.renderText(text, matches);
     }
 
     return {
