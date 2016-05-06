@@ -6,7 +6,8 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "react-native": "^0.17.0",
+    "react": "^0.14.8",
+    "react-native": "^0.25.0",
     "react-native-parsed-text": "file:../"
   }
 }
