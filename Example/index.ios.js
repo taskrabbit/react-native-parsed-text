@@ -4,7 +4,8 @@
  */
 'use strict';
 
-import React from 'react-native';
+import React from 'react';
+import ReactNative from 'react-native';
 const {
   AppRegistry,
   StyleSheet,

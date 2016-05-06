@@ -1,4 +1,5 @@
-import React from 'react-native';
+import React from 'react';
+import ReactNative from 'react-native';
 
 import TextExtraction from './lib/TextExtraction';
 
@@ -9,12 +10,12 @@ const PATTERNS = {
 };
 
 const defaultParseShape = React.PropTypes.shape({
-  ...React.Text.propTypes,
+  ...ReactNative.Text.propTypes,
   type: React.PropTypes.oneOf(Object.keys(PATTERNS)).isRequired,
 });
 
 const customParseShape = React.PropTypes.shape({
-  ...React.Text.propTypes,
+  ...ReactNative.Text.propTypes,
   pattern: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.instanceOf(RegExp)]).isRequired,
 });
 
@@ -23,7 +24,7 @@ class ParsedText extends React.Component {
   static displayName = 'ParsedText';
 
   static propTypes = {
-    ...React.Text.propTypes,
+    ...ReactNative.Text.propTypes,
     parse: React.PropTypes.arrayOf(
       React.PropTypes.oneOfType([defaultParseShape, customParseShape]),
     ),
@@ -55,7 +56,7 @@ class ParsedText extends React.Component {
 
     return textExtraction.parse().map((props, index) => {
       return (
-        <React.Text
+        <ReactNative.Text
           key={`parsedText-${index}`}
           {...props}
         />
@@ -65,9 +66,9 @@ class ParsedText extends React.Component {
 
   render() {
     return (
-      <React.Text {...this.props}>
+      <ReactNative.Text {...this.props}>
         {this.getParsedText()}
-      </React.Text>
+      </ReactNative.Text>
     );
   }
 
