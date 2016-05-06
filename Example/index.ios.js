@@ -12,7 +12,7 @@ const {
   View,
   LinkingIOS,
   AlertIOS,
-} = React;
+} = ReactNative;
 
 import ParsedText from 'react-native-parsed-text';
 
