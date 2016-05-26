@@ -34,6 +34,10 @@ class ParsedText extends React.Component {
     parse: null,
   };
 
+  setNativeProps(nativeProps) {
+    this._root.setNativeProps(nativeProps);
+  }
+
   getPatterns() {
     return this.props.parse.map((option) => {
       const {type, ...patternOption} = option;
@@ -66,7 +70,9 @@ class ParsedText extends React.Component {
 
   render() {
     return (
-      <ReactNative.Text {...this.props}>
+      <ReactNative.Text
+        ref={ref => this._root = ref}
+        {...this.props}>
         {this.getParsedText()}
       </ReactNative.Text>
     );
