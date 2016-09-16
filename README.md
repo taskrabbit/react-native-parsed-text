@@ -32,6 +32,8 @@ Displayed text will be : ```Mention ^^@michel^^```
 ## Example
 
 ```javascript
+import ParsedText from 'react-native-parsed-text';
+
 class Example extends React.Component {
   static displayName = 'Example';
 
