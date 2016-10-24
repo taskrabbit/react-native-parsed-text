@@ -20,6 +20,11 @@ const customParseShape = React.PropTypes.shape({
 });
 
 class ParsedText extends React.Component {
+  state = {
+    measured: false,
+    shouldShowReadMore: false,
+    showAllText: false,
+  };
 
   static displayName = 'ParsedText';
 
@@ -28,11 +33,40 @@ class ParsedText extends React.Component {
     parse: React.PropTypes.arrayOf(
       React.PropTypes.oneOfType([defaultParseShape, customParseShape]),
     ),
+
+    /*
+      Use for ReadMore...
+    */
+    numberOfLines: React.PropTypes.number,
+    renderRevealedFooter: React.PropTypes.func,
+    renderTruncatedFooter: React.PropTypes.func,
+    readMoreText: React.PropTypes.string,
+    hideText: React.PropTypes.string,
   };
 
   static defaultProps = {
     parse: null,
+    readMoreText: 'Read more',
+    hideText: 'Hide',
   };
+
+  async componentDidMount() {
+    if (this.props.numberOfLines) {
+      await nextFrameAsync();
+
+      // Get the height of the text with no restriction on number of lines
+      const fullHeight = await measureHeightAsync(this._root);
+      this.setState({ measured: true });
+      await nextFrameAsync();
+
+      // Get the height of the text now that number of lines has been set
+      const limitedHeight = await measureHeightAsync(this._root);
+
+      if (fullHeight > limitedHeight) {
+        this.setState({ shouldShowReadMore: true });
+      }
+    }
+  }
 
   setNativeProps(nativeProps) {
     this._root.setNativeProps(nativeProps);
@@ -70,14 +104,74 @@ class ParsedText extends React.Component {
 
   render() {
     return (
-      <ReactNative.Text
-        ref={ref => this._root = ref}
-        {...this.props}>
-        {this.getParsedText()}
-      </ReactNative.Text>
+      <ReactNative.View>
+        <ReactNative.Text
+          ref={ref => this._root = ref}
+          {...this.props}
+          numberOfLines={ this.state.measured && !this.state.showAllText ? this.props.numberOfLines : 1000 }>
+          {this.getParsedText()}
+        </ReactNative.Text>
+        {this._maybeRenderReadMore()}
+      </ReactNative.View>
     );
   }
 
+  _handlePressReadMore = () => {
+    this.setState({ showAllText: true });
+  }
+
+  _handlePressReadLess = () => {
+    this.setState({ showAllText: false });
+  }
+
+  _maybeRenderReadMore() {
+    let {
+      shouldShowReadMore,
+      showAllText,
+    } = this.state;
+
+    if (shouldShowReadMore && !showAllText) {
+      if (this.props.renderTruncatedFooter) {
+        return this.props.renderTruncatedFooter(this._handlePressReadMore);
+      }
+
+      return (
+        <ReactNative.Text style={styles.button} onPress={this._handlePressReadMore}>
+          {this.props.readMoreText}
+        </ReactNative.Text>
+      )
+    } else if (shouldShowReadMore && showAllText) {
+      if (this.props.renderRevealedFooter) {
+        return this.props.renderRevealedFooter(this._handlePressReadLess);
+      }
+
+      return (
+        <ReactNative.Text style={styles.button} onPress={this._handlePressReadLess}>
+          {this.props.hideText}
+        </ReactNative.Text>
+      );
+    }
+  }
 }
+
+function measureHeightAsync(component) {
+  return new Promise(resolve => {
+    component.measure((x, y, w, h) => {
+      resolve(h);
+    });
+  });
+}
+
+function nextFrameAsync() {
+  return new Promise(resolve => requestAnimationFrame(() => resolve()));
+}
+
+
+const styles = ReactNative.StyleSheet.create({
+  button: {
+    color: '#888',
+    marginTop: 5,
+  },
+});
 
 export default ParsedText;
