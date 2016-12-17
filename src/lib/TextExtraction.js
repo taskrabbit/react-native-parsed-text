@@ -30,9 +30,8 @@ class TextExtraction {
         let parts    = [];
         let textLeft = parsedText.children;
 
-        while (textLeft) {
-          let matches = pattern.pattern.exec(textLeft);
-
+        let matches;
+        while ((matches = textLeft.exec(pattern.pattern)) !== null) {
           if (!matches) { break; }
 
           let previousText = textLeft.substr(0, matches.index);
