@@ -28,10 +28,12 @@ class ParsedText extends React.Component {
     parse: React.PropTypes.arrayOf(
       React.PropTypes.oneOfType([defaultParseShape, customParseShape]),
     ),
+    childrenProps: React.PropTypes.shape(ReactNative.Text.propTypes),
   };
 
   static defaultProps = {
     parse: null,
+    childrenProps: {},
   };
 
   setNativeProps(nativeProps) {
@@ -62,6 +64,7 @@ class ParsedText extends React.Component {
       return (
         <ReactNative.Text
           key={`parsedText-${index}`}
+          {...this.props.childrenProps}
           {...props}
         />
       );
@@ -72,7 +75,8 @@ class ParsedText extends React.Component {
     return (
       <ReactNative.Text
         ref={ref => this._root = ref}
-        {...this.props}>
+        {...this.props}
+      >
         {this.getParsedText()}
       </ReactNative.Text>
     );
