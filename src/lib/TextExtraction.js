@@ -31,17 +31,27 @@ class TextExtraction {
         let textLeft = parsedText.children;
 
         while (textLeft) {
-          let matches = pattern.pattern.exec(textLeft);
+          let matchedIndex, matchedPart, matches;
+          if (typeof pattern.pattern === 'string') {
+            matchedIndex = textLeft.indexOf(pattern.pattern);
+            if (matchedIndex == -1) { break; }
 
-          if (!matches) { break; }
+            matchedPart = pattern.pattern.slice(0);
+            matches = [matchedPart];
 
-          let previousText = textLeft.substr(0, matches.index);
+          } else {
+            matches = pattern.pattern.exec(textLeft);
+            if (!matches) { break; }
+
+            matchedIndex = matches.index;
+            matchedPart = matches[0];
+          }
+          let previousText = textLeft.substr(0, matchedIndex);
 
           parts.push({children: previousText});
+          parts.push(this.getMatchedPart(pattern, matchedPart, matches));
 
-          parts.push(this.getMatchedPart(pattern, matches[0], matches));
-
-          textLeft = textLeft.substr(matches.index + matches[0].length);
+          textLeft = textLeft.substr(matchedIndex + matchedPart.length);
         }
 
         parts.push({children: textLeft});

@@ -122,4 +122,37 @@ describe('TextExtraction', () => {
     });
   });
 
+  describe('pattern is plain string', () => {
+    it('returns an array with text parts if there is matches', () => {
+      const textExtraction = new TextExtraction('hello my website is http://foo.bar, bar is good.', [
+        { pattern: 'bar' },
+      ]);
+
+      expect(textExtraction.parse()).to.eql([
+        {children: 'hello my website is http://foo.'},
+        {children: 'bar'},
+        {children: ', '},
+        {children: 'bar'},
+        {children: ' is good.'},
+      ]);
+    });
+
+    it('pass the values to the callbacks', (done) => {
+      const textExtraction = new TextExtraction('foo bar baz', [
+        { pattern: 'bar', renderText: (string, matches) => {
+          expect(matches[0]).to.eql('bar');
+          return `^^bar^^`;
+        }}
+      ]);
+
+      const parsedText = textExtraction.parse();
+
+      expect(parsedText[0]).to.eql({children: 'foo '});
+      expect(parsedText[1].children).to.eql('^^bar^^');
+      expect(parsedText[2]).to.eql({children: ' baz'});
+
+      done();
+    });
+  });
+
 });
