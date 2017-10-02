@@ -57,5 +57,8 @@
     "mocha": "^2.3.3"
   },
   "author": "jrichardlai",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "prop-types": "^15.5.10"
+  }
 }
