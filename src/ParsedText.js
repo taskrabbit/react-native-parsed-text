@@ -1,22 +1,23 @@
 import React from 'react';
 import ReactNative from 'react-native';
+import PropTypes from 'prop-types';
 
 import TextExtraction from './lib/TextExtraction';
 
 const PATTERNS = {
-  url: /(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)/,
-  phone: /[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}/,
+  url: /(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)/i,
+  phone: /[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,7}/,
   email: /\S+@\S+\.\S+/,
 };
 
-const defaultParseShape = React.PropTypes.shape({
+const defaultParseShape = PropTypes.shape({
   ...ReactNative.Text.propTypes,
-  type: React.PropTypes.oneOf(Object.keys(PATTERNS)).isRequired,
+  type: PropTypes.oneOf(Object.keys(PATTERNS)).isRequired,
 });
 
-const customParseShape = React.PropTypes.shape({
+const customParseShape = PropTypes.shape({
   ...ReactNative.Text.propTypes,
-  pattern: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.instanceOf(RegExp)]).isRequired,
+  pattern: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(RegExp)]).isRequired,
 });
 
 class ParsedText extends React.Component {
@@ -25,10 +26,10 @@ class ParsedText extends React.Component {
 
   static propTypes = {
     ...ReactNative.Text.propTypes,
-    parse: React.PropTypes.arrayOf(
-      React.PropTypes.oneOfType([defaultParseShape, customParseShape]),
+    parse: PropTypes.arrayOf(
+      PropTypes.oneOfType([defaultParseShape, customParseShape]),
     ),
-    childrenProps: React.PropTypes.shape(ReactNative.Text.propTypes),
+    childrenProps: PropTypes.shape(ReactNative.Text.propTypes),
   };
 
   static defaultProps = {

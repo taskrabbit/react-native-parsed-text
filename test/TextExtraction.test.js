@@ -42,6 +42,24 @@ describe('TextExtraction', () => {
       ]);
     });
 
+    it('return all matched urls', () => {
+      const urls = [
+        'https://website.bz',
+        'http://website2.it',
+        'https://t.co/hashKey',
+      ]
+      const textExtraction = new TextExtraction(
+        `this is my website ${urls[0]} and this is also ${urls[1]} ig this one also ${urls[2]}`,
+        [{ pattern: /(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{1,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)/i }]
+      )
+
+      const parsedText = textExtraction.parse();
+      expect(parsedText[1].children).to.eql(urls[0])
+      expect(parsedText[3].children).to.eql(urls[1])
+      expect(parsedText[5].children).to.eql(urls[2])
+
+    })
+
     it('pass the values to the callbacks', (done) => {
       const textExtraction = new TextExtraction('hello foo', [
         { pattern: /foo/, onPress: (value) => expect(value).to.eql('foo') && done() },
