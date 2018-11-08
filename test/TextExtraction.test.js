@@ -66,6 +66,27 @@ describe('TextExtraction', () => {
       expect(parsedText[5].children).toEqual(urls[2]);
     });
 
+    it('does not include trailing dots or unexpected punctuation', () => {
+      const urls = [
+        'https://website.bz',
+        'http://website2.it',
+        'https://t.co/hashKey',
+      ];
+      const textExtraction = new TextExtraction(
+        `URLS: ${urls[0]}. ${urls[1]}, ${urls[2]}!`,
+        [
+          {
+            pattern: PATTERNS.url,
+          },
+        ],
+      );
+
+      const parsedText = textExtraction.parse();
+      expect(parsedText[1].children).toEqual(urls[0]);
+      expect(parsedText[3].children).toEqual(urls[1]);
+      expect(parsedText[5].children).toEqual(urls[2]);
+    });
+
     it('pass the values to the callbacks', done => {
       const textExtraction = new TextExtraction('hello foo', [
         {
