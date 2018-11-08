@@ -4,7 +4,7 @@
   "description": "Parse text and make them into multiple React Native Text elements",
   "main": "src/ParsedText.js",
   "scripts": {
-    "test": "mocha --recursive --compilers js:babel-register"
+    "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/taskrabbit/react-native-parsed-text/issues"
@@ -40,5 +40,8 @@
   "license": "MIT",
   "dependencies": {
     "prop-types": "^15.5.10"
+  },
+  "jest": {
+    "preset": "react-native"
   }
 }
