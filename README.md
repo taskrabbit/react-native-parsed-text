@@ -39,19 +39,19 @@ import ParsedText from 'react-native-parsed-text';
 class Example extends React.Component {
   static displayName = 'Example';
 
-  handleUrlPress(url) {
+  handleUrlPress(url, matchIndex /*: number*/) {
     LinkingIOS.openURL(url);
   }
 
-  handlePhonePress(phone) {
+  handlePhonePress(phone, matchIndex /*: number*/) {
     AlertIOS.alert(`${phone} has been pressed!`);
   }
 
-  handleNamePress(name) {
+  handleNamePress(name, matchIndex /*: number*/) {
     AlertIOS.alert(`Hello ${name}`);
   }
 
-  handleEmailPress(email) {
+  handleEmailPress(email, matchIndex /*: number*/) {
     AlertIOS.alert(`send email to ${email}`);
   }
 
