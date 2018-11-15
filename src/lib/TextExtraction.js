@@ -29,6 +29,7 @@ class TextExtraction {
 
         let parts    = [];
         let textLeft = parsedText.children;
+        let indexOfMatchedString = 0;
 
         while (textLeft) {
           let matches = pattern.pattern.exec(textLeft);
@@ -36,12 +37,14 @@ class TextExtraction {
           if (!matches) { break; }
 
           let previousText = textLeft.substr(0, matches.index);
+          indexOfMatchedString += matches.index;
 
           parts.push({children: previousText});
 
-          parts.push(this.getMatchedPart(pattern, matches[0], matches));
+          parts.push(this.getMatchedPart(pattern, matches[0], matches, indexOfMatchedString));
 
           textLeft = textLeft.substr(matches.index + matches[0].length);
+          indexOfMatchedString += matches[0].length;
         }
 
         parts.push({children: textLeft});
@@ -64,17 +67,18 @@ class TextExtraction {
    * @param {Object} matchedPattern - pattern configuration of the pattern used to match the text
    * @param {RegExp} matchedPattern.pattern - pattern used to match the text
    * @param {String} text - Text matching the pattern
-   * @param {String[]} text - Result of the RegExp.exec
+   * @param {String[]} matches - Result of the RegExp.exec
+   * @param {Integer} index - Index of the matched string in the whole string
    * @return {Object} props for the matched text
    */
-  getMatchedPart(matchedPattern, text, matches) {
+  getMatchedPart(matchedPattern, text, matches, index) {
     let props = {};
 
     Object.keys(matchedPattern).forEach((key) => {
       if (key === 'pattern' || key === 'renderText') { return; }
 
       if (typeof matchedPattern[key] === 'function') {
-        props[key] = () => matchedPattern[key](text);
+        props[key] = () => matchedPattern[key](text, index);
       } else {
         props[key] = matchedPattern[key];
       }
