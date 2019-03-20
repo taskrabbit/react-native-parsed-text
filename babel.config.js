@@ -1,7 +1,6 @@
-module.exports = {
-  retainLines: true,
-  compact: true,
-  comments: false,
-  presets: ["module:metro-react-native-babel-preset"],
-  sourceMaps: false
+module.exports = function(api) {
+  api.cache(true);
+  return {
+    presets: ['babel-preset-expo'],
+  };
 };
