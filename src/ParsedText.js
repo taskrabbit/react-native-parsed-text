@@ -64,23 +64,18 @@ class ParsedText extends React.Component {
     }
 
     const textExtraction = new TextExtraction(this.props.children, this.getPatterns());
+    if (ReactNative.Platform.OS === 'android') {
+      return this.androidParsedText(textExtraction);
+    }
+    return this.iosParsedText(textExtraction);
+  }
 
+  /**
+   * Parse text for ios devices
+   * @param textExtraction
+   */
+  iosParsedText = (textExtraction) => {
     return textExtraction.parse().map((props, index) => {
-      if (ReactNative.Platform.OS === 'android') {
-        const { style: parentStyle } = this.props;
-        const { style, ...remainder } = props;
-        if (typeof props.children === 'string') {
-          props.children = props.children.replace(/\n\n/ig, '\n');
-        }
-        return (
-          <ReactNative.Text
-            key={`parsedText-${index}`}
-            {...this.props.childrenProps}
-            {...props}
-            style={[parentStyle, style]}
-          />
-        );
-      }
       return (
         <ReactNative.Text
           key={`parsedText-${index}`}
@@ -91,17 +86,67 @@ class ParsedText extends React.Component {
     });
   }
 
+  /**
+   * Parse text for android devices
+   * @returns {any[]}
+   * @param textExtraction
+   */
+  androidParsedText = (textExtraction) => {
+    const parts = [];
+    let row = [];
+    textExtraction.parse().map((props, index) => {
+        if (ReactNative.Platform.OS === 'android') {
+          const { style: parentStyle } = this.props;
+          const { style, ...remainder } = props;
+          if (typeof props.children === 'string') {
+            props.children = props.children.replace(/\n/ig, '');
+          }
+          if (style && style.textAlign === 'center') {
+            parts.push({ wrapType: 'Text', items: row });
+            row = [];
+            row.push({
+              wrapType: 'View',
+              el: (<ReactNative.Text
+                key={`parsedText-${index}-view`}
+                {...this.props.childrenProps}
+                {...props}
+                style={[parentStyle, style]}
+              />)
+            });
+            parts.push({ wrapType: 'View', items: row });
+            row = [];
+          } else {
+            row.push({
+              wrapType: 'Text',
+              el: (<ReactNative.Text
+                key={`parsedText-${index}-text`}
+                {...this.props.childrenProps}
+                {...props}
+                style={[parentStyle, style]}
+              />)
+            });
+          }
+        }
+      }
+    );
+    if (row.length) {
+      parts.push({ wrapType: row[0].wrapType, items: row });
+    }
+    return parts.map((part, index) => {
+      if (part.wrapType === 'Text') {
+        return (<ReactNative.Text key={`wrap_${index}`}>
+          {part.items.map((item) => (item.el))}
+        </ReactNative.Text>);
+      }
+      return (<ReactNative.View key={`wrap_${index}`}>{part.items.map((item) => (item.el))}</ReactNative.View>);
+    });
+  }
+
   render() {
     if (ReactNative.Platform.OS === 'android') {
       return (
         <ReactNative.View
           ref={ref => this._root = ref}
-          style={{
-            width: '100%',
-            flex: 0,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-          }}
         >
           {this.getParsedText()}
         </ReactNative.View>
