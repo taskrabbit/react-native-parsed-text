@@ -69,7 +69,7 @@ class ParsedText extends React.Component {
           key={`parsedText-${index}`}
           style={[parentStyle, style]}
           {...this.props.childrenProps}
-          {...props}
+          {...remainder}
         />
       );
     });
