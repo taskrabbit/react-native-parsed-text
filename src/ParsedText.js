@@ -62,11 +62,14 @@ class ParsedText extends React.Component {
     const textExtraction = new TextExtraction(this.props.children, this.getPatterns());
 
     return textExtraction.parse().map((props, index) => {
+      const { style: parentStyle } = this.props
+      const { style, ...remainder } = props
       return (
         <Text
           key={`parsedText-${index}`}
+          style={[parentStyle, style]}
           {...this.props.childrenProps}
-          {...props}
+          {...remainder}
         />
       );
     });
