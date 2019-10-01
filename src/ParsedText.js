@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactNative from 'react-native';
+import { Text } from 'react-native';
 import PropTypes from 'prop-types';
 
 import TextExtraction from './lib/TextExtraction';
@@ -11,12 +11,12 @@ export const PATTERNS = {
 };
 
 const defaultParseShape = PropTypes.shape({
-  ...ReactNative.Text.propTypes,
+  ...Text.propTypes,
   type: PropTypes.oneOf(Object.keys(PATTERNS)).isRequired,
 });
 
 const customParseShape = PropTypes.shape({
-  ...ReactNative.Text.propTypes,
+  ...Text.propTypes,
   pattern: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(RegExp)]).isRequired,
 });
 
@@ -25,11 +25,11 @@ class ParsedText extends React.Component {
   static displayName = 'ParsedText';
 
   static propTypes = {
-    ...ReactNative.Text.propTypes,
+    ...Text.propTypes,
     parse: PropTypes.arrayOf(
       PropTypes.oneOfType([defaultParseShape, customParseShape]),
     ),
-    childrenProps: PropTypes.shape(ReactNative.Text.propTypes),
+    childrenProps: PropTypes.shape(Text.propTypes),
   };
 
   static defaultProps = {
@@ -63,7 +63,7 @@ class ParsedText extends React.Component {
 
     return textExtraction.parse().map((props, index) => {
       return (
-        <ReactNative.Text
+        <Text
           key={`parsedText-${index}`}
           {...this.props.childrenProps}
           {...props}
@@ -73,13 +73,13 @@ class ParsedText extends React.Component {
   }
 
   render() {
-    // Discard custom props before passing remainder to ReactNative.Text
+    // Discard custom props before passing remainder to Text
     const { parse, childrenProps, ...remainder } = { ...this.props };
 
     return (
-      <ReactNative.Text ref={ref => (this._root = ref)} {...remainder}>
+      <Text ref={ref => (this._root = ref)} {...remainder}>
         {this.getParsedText()}
-      </ReactNative.Text>
+      </Text>
     );
   }
 }
