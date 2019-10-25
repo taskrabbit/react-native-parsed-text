@@ -17,8 +17,7 @@ const defaultParseShape = PropTypes.shape({
 
 const customParseShape = PropTypes.shape({
   ...Text.propTypes,
-  pattern: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(RegExp)])
-    .isRequired,
+  pattern: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(RegExp)]).isRequired,
 });
 
 class ParsedText extends React.Component {
@@ -69,11 +68,14 @@ class ParsedText extends React.Component {
     );
 
     return textExtraction.parse().map((props, index) => {
+      const { style: parentStyle } = this.props
+      const { style, ...remainder } = props
       return (
         <Text
           key={`parsedText-${index}`}
+          style={[parentStyle, style]}
           {...this.props.childrenProps}
-          {...props}
+          {...remainder}
         />
       );
     });
