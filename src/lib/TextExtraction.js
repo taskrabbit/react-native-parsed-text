@@ -6,7 +6,7 @@ class TextExtraction {
    * @param {RegExp} patterns[].pattern - RegExp to be used for parsing
    */
   constructor(text, patterns) {
-    this.text     = text;
+    this.text = text;
     this.patterns = patterns || [];
   }
 
@@ -15,11 +15,11 @@ class TextExtraction {
    * @return {Object[]} - props for all the parts of the text
    */
   parse() {
-    let parsedTexts = [{children: this.text}];
-    this.patterns.forEach((pattern) => {
+    let parsedTexts = [{ children: this.text }];
+    this.patterns.forEach(pattern => {
       let newParts = [];
 
-      parsedTexts.forEach((parsedText) => {
+      parsedTexts.forEach(parsedText => {
         // Only allow for now one parsing
         if (parsedText._matched) {
           newParts.push(parsedText);
@@ -27,27 +27,37 @@ class TextExtraction {
           return;
         }
 
-        let parts    = [];
+        let parts = [];
         let textLeft = parsedText.children;
         let indexOfMatchedString = 0;
+        let regexp = new RegExp(pattern.pattern);
 
         while (textLeft) {
-          let matches = pattern.pattern.exec(textLeft);
+          let matches = regexp.exec(textLeft);
 
-          if (!matches) { break; }
+          if (!matches) {
+            break;
+          }
 
           let previousText = textLeft.substr(0, matches.index);
           indexOfMatchedString += matches.index;
 
-          parts.push({children: previousText});
+          parts.push({ children: previousText });
 
-          parts.push(this.getMatchedPart(pattern, matches[0], matches, indexOfMatchedString));
+          parts.push(
+            this.getMatchedPart(
+              pattern,
+              matches[0],
+              matches,
+              indexOfMatchedString,
+            ),
+          );
 
           textLeft = textLeft.substr(matches.index + matches[0].length);
           indexOfMatchedString += matches[0].length;
         }
 
-        parts.push({children: textLeft});
+        parts.push({ children: textLeft });
 
         newParts.push(...parts);
       });
@@ -56,7 +66,7 @@ class TextExtraction {
     });
 
     // Remove _matched key.
-    parsedTexts.forEach((parsedText) => delete(parsedText._matched));
+    parsedTexts.forEach(parsedText => delete parsedText._matched);
 
     return parsedTexts.filter(t => !!t.children);
   }
@@ -74,8 +84,10 @@ class TextExtraction {
   getMatchedPart(matchedPattern, text, matches, index) {
     let props = {};
 
-    Object.keys(matchedPattern).forEach((key) => {
-      if (key === 'pattern' || key === 'renderText') { return; }
+    Object.keys(matchedPattern).forEach(key => {
+      if (key === 'pattern' || key === 'renderText') {
+        return;
+      }
 
       if (typeof matchedPattern[key] === 'function') {
         props[key] = () => matchedPattern[key](text, index);
@@ -85,7 +97,10 @@ class TextExtraction {
     });
 
     let children = text;
-    if (matchedPattern.renderText && typeof matchedPattern.renderText === 'function') {
+    if (
+      matchedPattern.renderText &&
+      typeof matchedPattern.renderText === 'function'
+    ) {
       children = matchedPattern.renderText(text, matches);
     }
 
