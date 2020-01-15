@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/taskrabbit/react-native-parsed-text.git"
+    "url": "git+ssh://git@github.com:BunchLive/react-native-parsed-text.git"
   },
   "homepage": "https://github.com/taskrabbit/react-native-parsed-text#readme",
   "keywords": [
