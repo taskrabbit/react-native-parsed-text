@@ -4,6 +4,7 @@
   "description": "Parse text and make them into multiple React Native Text elements",
   "main": "src/ParsedText.js",
   "scripts": {
+    "lint": "eslint",
     "test": "jest"
   },
   "bugs": {
@@ -27,19 +28,21 @@
     "react-native": "*"
   },
   "devDependencies": {
-    "@babel/core": "7.1.5",
+    "@babel/core": "7.10.x",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "23.6.0",
-    "jest": "23.6.0",
-    "metro-react-native-babel-preset": "0.49.0",
-    "react-native": "0.57.4",
-    "react-test-renderer": "16.6.0-alpha.8af6728",
-    "react": "16.6.0-alpha.8af6728"
+    "babel-jest": "26.0.x",
+    "eslint": "7.2.x",
+    "jest": "26.0.x",
+    "metro-react-native-babel-preset": "0.57.x || 0.58.x || 0.59.x",
+    "prettier": "2.0.x",
+    "react-native": "0.62.x",
+    "react-test-renderer": "16.13.x",
+    "react": "16.13.x"
   },
   "author": "jrichardlai",
   "license": "MIT",
   "dependencies": {
-    "prop-types": "^15.5.10"
+    "prop-types": "^15.7.x"
   },
   "jest": {
     "preset": "react-native"
