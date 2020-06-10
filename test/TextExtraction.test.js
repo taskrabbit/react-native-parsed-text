@@ -64,6 +64,29 @@ describe('TextExtraction', () => {
       expect(parsedText[5].children).toEqual(urls[2]);
     });
 
+    it('return all matched urls with long gTLD', () => {
+      const urls = [
+        'https://long-gtld.fitness',
+        'https://long-gtld.americanexpress',
+        'https://long-gtld.xn--vermgensberatung-pwb',
+      ];
+      const textExtraction = new TextExtraction(
+        `this is my website ${urls[0]} and this is also ${
+          urls[1]
+        } and why not this one also ${urls[2]}`,
+        [
+          {
+            pattern: PATTERNS.url,
+          },
+        ],
+      );
+
+      const parsedText = textExtraction.parse();
+      expect(parsedText[1].children).toEqual(urls[0]);
+      expect(parsedText[3].children).toEqual(urls[1]);
+      expect(parsedText[5].children).toEqual(urls[2]);
+    });
+
     it('does not include trailing dots or unexpected punctuation', () => {
       const urls = [
         'https://website.bz',
