@@ -5,8 +5,13 @@
 'use strict';
 
 import React from 'react';
-import ReactNative from 'react-native';
-const { AppRegistry, StyleSheet, View, LinkingIOS, AlertIOS } = ReactNative;
+import {
+  AppRegistry,
+  StyleSheet,
+  View,
+  LinkingIOS,
+  AlertIOS,
+} from 'react-native';
 
 import ParsedText from 'react-native-parsed-text';
 

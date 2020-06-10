@@ -34,13 +34,14 @@
     "@babel/core": "7.10.x",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "26.0.x",
+    "babel-preset-expo": "8.2.x",
     "eslint": "7.2.x",
     "jest": "26.0.x",
     "metro-react-native-babel-preset": "0.57.x || 0.58.x || 0.59.x",
     "prettier": "2.0.x",
+    "react": "16.13.x",
     "react-native": "0.62.x",
-    "react-test-renderer": "16.13.x",
-    "react": "16.13.x"
+    "react-test-renderer": "16.13.x"
   },
   "author": "jrichardlai",
   "license": "MIT",
