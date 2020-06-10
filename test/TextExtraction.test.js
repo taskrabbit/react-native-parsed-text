@@ -50,9 +50,7 @@ describe('TextExtraction', () => {
         'https://t.co/hashKey',
       ];
       const textExtraction = new TextExtraction(
-        `this is my website ${urls[0]} and this is also ${
-          urls[1]
-        } and why not this one also ${urls[2]}`,
+        `this is my website ${urls[0]} and this is also ${urls[1]} and why not this one also ${urls[2]}`,
         [
           {
             pattern: PATTERNS.url,
@@ -87,11 +85,11 @@ describe('TextExtraction', () => {
       expect(parsedText[5].children).toEqual(urls[2]);
     });
 
-    it('pass the values to the callbacks', done => {
+    it('pass the values to the callbacks', (done) => {
       const textExtraction = new TextExtraction('hello foo', [
         {
           pattern: /foo/,
-          onPress: value => {
+          onPress: (value) => {
             expect(value).toEqual('foo');
             done();
           },
@@ -149,7 +147,7 @@ describe('TextExtraction', () => {
   });
 
   describe('renderText prop', () => {
-    it('checks that renderText is a function', done => {
+    it('checks that renderText is a function', (done) => {
       const textExtraction = new TextExtraction('Mention [@michel:561316513]', [
         { pattern: /\[(@[^:]+):([^\]]+)\]/i, renderText: 'foo' },
       ]);
@@ -161,7 +159,7 @@ describe('TextExtraction', () => {
 
       done();
     });
-    it('pass the values to the callbacks', done => {
+    it('pass the values to the callbacks', (done) => {
       const textExtraction = new TextExtraction('Mention [@michel:561316513]', [
         {
           pattern: /\[(@[^:]+):([^\]]+)\]/i,

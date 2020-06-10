@@ -2,3 +2,4 @@ node_modules
 assets
 .idea
 package-lock.json
+yarn.lock
