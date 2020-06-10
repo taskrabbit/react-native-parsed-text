@@ -71,9 +71,7 @@ describe('TextExtraction', () => {
         'https://long-gtld.xn--vermgensberatung-pwb',
       ];
       const textExtraction = new TextExtraction(
-        `this is my website ${urls[0]} and this is also ${
-          urls[1]
-        } and why not this one also ${urls[2]}`,
+        `this is my website ${urls[0]} and this is also ${urls[1]} and why not this one also ${urls[2]}`,
         [
           {
             pattern: PATTERNS.url,

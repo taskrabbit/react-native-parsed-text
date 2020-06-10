@@ -6,7 +6,7 @@
   "types": "src/ParsedText.d.ts",
   "scripts": {
     "prettier": "prettier",
-    "prettier:all": "prettier --write ./*.json ./*.js ./**/*.js src/*.ts ",
+    "prettier:all": "prettier --write '**/*.json' '**/*.js' '**/*.ts' ",
     "lint": "eslint",
     "test": "jest"
   },
