@@ -9,7 +9,13 @@ describe('TextExtraction', () => {
     it('returns an array with the text if there is no patterns', () => {
       const textExtraction = new TextExtraction('Some Text');
 
-      expect(textExtraction.parse()).toEqual([{ children: 'Some Text' }]);
+      expect(textExtraction.parse()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "children": "Some Text",
+          },
+        ]
+      `);
     });
 
     it('returns an array with the text if the text cant be parsed', () => {
@@ -17,7 +23,13 @@ describe('TextExtraction', () => {
         { pattern: /abcdef/ },
       ]);
 
-      expect(textExtraction.parse()).toEqual([{ children: 'Some Text' }]);
+      expect(textExtraction.parse()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "children": "Some Text",
+          },
+        ]
+      `);
     });
 
     it('returns an array with the text and return only present values', () => {
@@ -62,13 +74,25 @@ describe('TextExtraction', () => {
         [{ pattern: /bar/ }],
       );
 
-      expect(textExtraction.parse()).toEqual([
-        { children: 'hello my website is http://foo.' },
-        { children: 'bar' },
-        { children: ', ' },
-        { children: 'bar' },
-        { children: ' is good.' },
-      ]);
+      expect(textExtraction.parse()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "children": "hello my website is http://foo.",
+          },
+          Object {
+            "children": "bar",
+          },
+          Object {
+            "children": ", ",
+          },
+          Object {
+            "children": "bar",
+          },
+          Object {
+            "children": " is good.",
+          },
+        ]
+      `);
     });
 
     it('return all matched urls', () => {
@@ -165,13 +189,25 @@ describe('TextExtraction', () => {
         ],
       );
 
-      expect(textExtraction.parse()).toEqual([
-        { children: 'hello my website is ' },
-        { children: 'http://foo.bar' },
-        { children: ', ' },
-        { children: 'bar' },
-        { children: ' is good.' },
-      ]);
+      expect(textExtraction.parse()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "children": "hello my website is ",
+          },
+          Object {
+            "children": "http://foo.bar",
+          },
+          Object {
+            "children": ", ",
+          },
+          Object {
+            "children": "bar",
+          },
+          Object {
+            "children": " is good.",
+          },
+        ]
+      `);
     });
 
     it('respects the parsing order', () => {
@@ -185,13 +221,25 @@ describe('TextExtraction', () => {
         ],
       );
 
-      expect(textExtraction.parse()).toEqual([
-        { children: 'hello my website is http://foo.' },
-        { children: 'bar' },
-        { children: ', ' },
-        { children: 'bar' },
-        { children: ' is good.' },
-      ]);
+      expect(textExtraction.parse()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "children": "hello my website is http://foo.",
+          },
+          Object {
+            "children": "bar",
+          },
+          Object {
+            "children": ", ",
+          },
+          Object {
+            "children": "bar",
+          },
+          Object {
+            "children": " is good.",
+          },
+        ]
+      `);
     });
   });
 
