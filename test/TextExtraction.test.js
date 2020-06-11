@@ -28,6 +28,34 @@ describe('TextExtraction', () => {
       expect(textExtraction.parse()).toEqual([{ children: 'abcdef' }]);
     });
 
+    it('still works even if the RegExp has a previously-used pattern', () => {
+      const r = /c/g;
+      r.lastIndex = 2;
+      const textExtraction = new TextExtraction('cc something c something', [
+        { pattern: r, renderText: () => 'Found!' },
+      ]);
+
+      expect(textExtraction.parse()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "children": "Found!",
+          },
+          Object {
+            "children": "Found!",
+          },
+          Object {
+            "children": " something ",
+          },
+          Object {
+            "children": "Found!",
+          },
+          Object {
+            "children": " something",
+          },
+        ]
+      `);
+    });
+
     it('returns an array with text parts if there is matches', () => {
       const textExtraction = new TextExtraction(
         'hello my website is http://foo.bar, bar is good.',
