@@ -54,7 +54,7 @@ class TextExtraction {
           textLeft = textLeft.substr(matches.index + matches[0].length);
           indexOfMatchedString += matches[0].length - 1;
           // Global RegExps are stateful, this makes it operate on the "remainder" of the string
-          pattern.pattern.lastIndex = indexOfMatchedString;
+          pattern.pattern.lastIndex = 0;
         }
 
         parts.push({ children: textLeft });

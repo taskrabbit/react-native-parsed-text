@@ -210,6 +210,116 @@ describe('TextExtraction', () => {
       `);
     });
 
+    it('handles global flagged regexps consistently', () => {
+      const lol = 'lol lol lol lol lol lol lol lol';
+      // The way this library is constructed, matches progressively consume
+      const extractGlobal = new TextExtraction(lol, [
+        { pattern: new RegExp('lol', 'gi') },
+      ]);
+      expect(extractGlobal.parse()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+        ]
+      `);
+
+      const extractNonGlobal = new TextExtraction(lol, [
+        { pattern: new RegExp('lol', 'i') },
+      ]);
+      expect(extractNonGlobal.parse()).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+          Object {
+            "children": " ",
+          },
+          Object {
+            "children": "lol",
+          },
+        ]
+      `);
+    });
+
     it('respects the parsing order', () => {
       const textExtraction = new TextExtraction(
         'hello my website is http://foo.bar, bar is good.',
