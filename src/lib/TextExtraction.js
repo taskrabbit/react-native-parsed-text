@@ -1,9 +1,38 @@
+/**
+ * Note: any additional keys/props are permitted, and will be passed along as props to the <Text> component!
+ * @typedef {Object} BaseParseShape
+ * @property {Function} [renderText]
+ * @property {Function} [onPress]
+ * @property {Function} [onLongPress]
+ */
+/**
+ * This is a list of the known patterns that are provided by this library
+ * @typedef {('url'|'phone'|'email')} KnownParsePatterns
+ */
+/**
+ * This is for built-in-patterns already supported by this library
+ * Note: any additional keys/props are permitted, and will be passed along as props to the <Text> component!
+ * @typedef {BaseParseShape} DefaultParseShape
+ * @property {KnownParsePatterns} [type] key of the known pattern you'd like to configure
+ */
+/**
+ * If you want to provide a custom regexp, this is the configuration to use.
+ * -- For historical reasons, all regexps are processed as if they have the global flag set.
+ * Note: any additional keys/props are permitted, and will be passed along as props to the <Text> component!
+ * @typedef {BaseParseShape} CustomParseShape
+ * @property {RegExp} [pattern]
+ */
+/**
+ * @typedef {DefaultParseShape|CustomParseShape} ParseShape
+ */
+/**
+ * Class to encapsulate the business logic of converting text into matches & props
+ */
 class TextExtraction {
   /**
    * @param {String} text - Text to be parsed
-   * @param {Object[]} patterns - Patterns to be used when parsed
-   *                              other options than pattern would be added to the parsed content
-   * @param {RegExp} patterns[].pattern - RegExp to be used for parsing
+   * @param {ParseShape[]} patterns - Patterns to be used when parsed,
+   *                                 any extra attributes, will be returned from parse()
    */
   constructor(text, patterns) {
     this.text = text;
@@ -12,6 +41,7 @@ class TextExtraction {
 
   /**
    * Returns parts of the text with their own props
+   * @public
    * @return {Object[]} - props for all the parts of the text
    */
   parse() {
@@ -74,8 +104,9 @@ class TextExtraction {
   // private
 
   /**
+   * @protected
    * @param {Object} matchedPattern - pattern configuration of the pattern used to match the text
-   * @param {RegExp} matchedPattern.pattern - pattern used to match the text
+   * @param {RegExp} [matchedPattern.pattern] - pattern used to match the text
    * @param {String} text - Text matching the pattern
    * @param {String[]} matches - Result of the RegExp.exec
    * @param {Integer} index - Index of the matched string in the whole string
@@ -90,8 +121,10 @@ class TextExtraction {
       }
 
       if (typeof matchedPattern[key] === 'function') {
+        // Support onPress / onLongPress functions
         props[key] = () => matchedPattern[key](text, index);
       } else {
+        // Set a prop with an arbitrary name to the value in the match-config
         props[key] = matchedPattern[key];
       }
     });
