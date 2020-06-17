@@ -354,7 +354,7 @@ describe('TextExtraction', () => {
   });
 
   describe('renderText prop', () => {
-    it('checks that renderText is a function', (done) => {
+    it('checks that renderText is a function', () => {
       const textExtraction = new TextExtraction('Mention [@michel:561316513]', [
         { pattern: /\[(@[^:]+):([^\]]+)\]/i, renderText: 'foo' },
       ]);
@@ -363,10 +363,8 @@ describe('TextExtraction', () => {
 
       expect(parsedText[0]).toEqual({ children: 'Mention ' });
       expect(parsedText[1]).toEqual({ children: '[@michel:561316513]' });
-
-      done();
     });
-    it('pass the values to the callbacks', (done) => {
+    it('pass the values to the callbacks', () => {
       const textExtraction = new TextExtraction('Mention [@michel:561316513]', [
         {
           pattern: /\[(@[^:]+):([^\]]+)\]/i,
@@ -385,8 +383,6 @@ describe('TextExtraction', () => {
 
       expect(parsedText[0]).toEqual({ children: 'Mention ' });
       expect(parsedText[1].children).toEqual('^^@michel^^');
-
-      done();
     });
   });
 });
