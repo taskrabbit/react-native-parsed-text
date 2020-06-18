@@ -320,6 +320,47 @@ describe('TextExtraction', () => {
       `);
     });
 
+    describe('non-exhaustive-mode', () => {
+      it('basic functions work', () => {
+        const ext = new TextExtraction('aaaa', [
+          {
+            pattern: /a/,
+            nonExhaustiveModeMaxMatchCount: 1,
+            renderText: () => 'z',
+          },
+        ]);
+        expect(
+          ext
+            .parse()
+            .map((chunk) => chunk.children)
+            .join(''),
+        ).toMatchInlineSnapshot(`"zaaa"`);
+      });
+      test.each([
+        ['undefined is', undefined, 'aaaa', 'zzzz'],
+        ['null is', null, 'aaaa', 'zzzz'],
+        ['zero is', 0, 'aaaa', 'zzzz'],
+        ['negative numbers are', -1, 'aaaa', 'zzzz'],
+        ['arbitrary objects are', {}, 'aaaa', 'zzzz'],
+      ])(
+        'nonsense nonExhaustiveModeMaxMatchCount values: %s treated like infinity/no-limit',
+        (msg, value, text, result) => {
+          expect(
+            new TextExtraction(text, [
+              {
+                pattern: /a/,
+                nonExhaustiveModeMaxMatchCount: value,
+                renderText: () => 'z',
+              },
+            ])
+              .parse()
+              .map((chunk) => chunk.children)
+              .join(''),
+          ).toEqual(result);
+        },
+      );
+    });
+
     it('respects the parsing order', () => {
       const textExtraction = new TextExtraction(
         'hello my website is http://foo.bar, bar is good.',
