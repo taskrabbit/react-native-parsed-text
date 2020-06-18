@@ -322,20 +322,46 @@ describe('TextExtraction', () => {
 
     describe('non-exhaustive-mode', () => {
       it('basic functions work', () => {
-        const ext = new TextExtraction('aaaa', [
-          {
-            pattern: /a/,
-            nonExhaustiveModeMaxMatchCount: 1,
-            renderText: () => 'z',
-          },
-        ]);
         expect(
-          ext
+          new TextExtraction('aaaa', [
+            {
+              pattern: /a/,
+              nonExhaustiveModeMaxMatchCount: 1,
+              renderText: () => 'z',
+            },
+          ])
             .parse()
             .map((chunk) => chunk.children)
             .join(''),
         ).toMatchInlineSnapshot(`"zaaa"`);
+
+        expect(
+          new TextExtraction('aaaa', [
+            {
+              pattern: /a/,
+              nonExhaustiveModeMaxMatchCount: 2,
+              renderText: () => 'z',
+            },
+          ])
+            .parse()
+            .map((chunk) => chunk.children)
+            .join(''),
+        ).toMatchInlineSnapshot(`"zzaa"`);
+
+        expect(
+          new TextExtraction('aaaa', [
+            {
+              pattern: /a/,
+              nonExhaustiveModeMaxMatchCount: 10,
+              renderText: () => 'z',
+            },
+          ])
+            .parse()
+            .map((chunk) => chunk.children)
+            .join(''),
+        ).toMatchInlineSnapshot(`"zzzz"`);
       });
+
       test.each([
         ['undefined is', undefined, 'aaaa', 'zzzz'],
         ['null is', null, 'aaaa', 'zzzz'],
