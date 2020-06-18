@@ -23,6 +23,7 @@ export const PATTERNS = {
  * Note: any additional keys/props are permitted, and will be passed along as props to the <Text> component!
  * @typedef {Object} DefaultParseShape
  * @property {KnownParsePattern} [type] key of the known pattern you'd like to configure
+ * @property {number} [nonExhaustiveModeMaxMatchCount] Enables "non-exhaustive mode", where you can limit how many matches are found. -- Must be a positive integer or Infinity matches are permitted
  * @property {Function} [renderText] arbitrary function to rewrite the matched string into something else
  * @property {Function} [onPress]
  * @property {Function} [onLongPress]
@@ -30,6 +31,7 @@ export const PATTERNS = {
 const defaultParseShape = PropTypes.shape({
   ...Text.propTypes,
   type: PropTypes.oneOf(Object.keys(PATTERNS)).isRequired,
+  nonExhaustiveMaxMatchCount: PropTypes.number,
 });
 
 const customParseShape = PropTypes.shape({
