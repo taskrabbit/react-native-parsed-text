@@ -47,7 +47,6 @@ class TextExtraction {
         // Only allow for now one parsing
         if (parsedText._matched) {
           newParts.push(parsedText);
-
           return;
         }
 
@@ -66,7 +65,6 @@ class TextExtraction {
 
           if (++currentMatches > numberOfMatchesPermitted) {
             // Abort if we've exhausted our number of matches
-            parts.push({ children: textLeft });
             break;
           }
 
