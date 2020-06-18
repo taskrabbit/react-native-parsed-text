@@ -36,6 +36,7 @@ const customParseShape = PropTypes.shape({
   ...Text.propTypes,
   pattern: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(RegExp)])
     .isRequired,
+  nonExhaustiveMaxMatchCount: PropTypes.number,
 });
 
 /**

@@ -5,6 +5,7 @@
  * Note: any additional keys/props are permitted, and will be returned as-is!
  * @typedef {Object} CustomParseShape
  * @property {RegExp} pattern
+ * @property {number} [nonExhaustiveModeMaxMatchCount] Enables "non-exhaustive mode", where you can limit how many matches are found. -- Must be a positive integer or Infinity matches are permitted
  * @property {Function} [renderText] arbitrary function to rewrite the matched string into something else
  * @property {Function} [onPress]
  * @property {Function} [onLongPress]
@@ -33,6 +34,15 @@ class TextExtraction {
     this.patterns.forEach((pattern) => {
       let newParts = [];
 
+      const tmp = pattern.nonExhaustiveModeMaxMatchCount || 0;
+      const numberOfMatchesPermitted = Math.min(
+        Math.max(Number.isInteger(tmp) ? tmp : 0, 0) ||
+          Number.POSITIVE_INFINITY,
+        Number.POSITIVE_INFINITY,
+      );
+
+      let currentMatches = 0;
+
       parsedTexts.forEach((parsedText) => {
         // Only allow for now one parsing
         if (parsedText._matched) {
@@ -53,6 +63,12 @@ class TextExtraction {
         while (textLeft && (matches = pattern.pattern.exec(textLeft))) {
           let previousText = textLeft.substr(0, matches.index);
           indexOfMatchedString = matches.index;
+
+          if (++currentMatches > numberOfMatchesPermitted) {
+            // Abort if we've exhausted our number of matches
+            parts.push({ children: textLeft });
+            break;
+          }
 
           parts.push({ children: previousText });
 
@@ -99,7 +115,11 @@ class TextExtraction {
     let props = {};
 
     Object.keys(matchedPattern).forEach((key) => {
-      if (key === 'pattern' || key === 'renderText') {
+      if (
+        key === 'pattern' ||
+        key === 'renderText' ||
+        key === 'nonExhaustiveModeMaxMatchCount'
+      ) {
         return;
       }
 
