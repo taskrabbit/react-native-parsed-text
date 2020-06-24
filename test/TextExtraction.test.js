@@ -100,9 +100,14 @@ describe('TextExtraction', () => {
         'https://website.bz',
         'http://website2.it',
         'https://t.co/hashKey',
+        'https://maps.apple.com/?q=37.33182,-122.03118',
+        'https://example.com/?nested[key]=value',
       ];
+      expect.assertions(urls.length);
       const textExtraction = new TextExtraction(
-        `this is my website ${urls[0]} and this is also ${urls[1]} and why not this one also ${urls[2]}`,
+        `this is my website ${urls[0]}.
+        I have another two ${urls[1]}, ${urls[2]}!
+        This URL has a comma ${urls[3]} -- while this one has nested data: ${urls[4]}.`,
         [
           {
             pattern: PATTERNS.url,
@@ -111,9 +116,9 @@ describe('TextExtraction', () => {
       );
 
       const parsedText = textExtraction.parse();
-      expect(parsedText[1].children).toEqual(urls[0]);
-      expect(parsedText[3].children).toEqual(urls[1]);
-      expect(parsedText[5].children).toEqual(urls[2]);
+      for (let i = 0; i < urls.length; i++) {
+        expect(parsedText[i * 2 + 1].children).toEqual(urls[i]);
+      }
     });
 
     it('return all matched urls with long gTLD', () => {
