@@ -114,6 +114,7 @@ class ParsedText extends React.Component {
         <Text
           key={`parsedText-${index}`}
           style={[parentStyle, style]}
+          ref={(ref) => (this._root = ref)} 
           {...this.props.childrenProps}
           {...remainder}
         />
@@ -126,9 +127,7 @@ class ParsedText extends React.Component {
     const { parse, childrenProps, ...remainder } = { ...this.props };
 
     return (
-      <Text ref={(ref) => (this._root = ref)} {...remainder}>
-        {this.getParsedText()}
-      </Text>
+        this.getParsedText()
     );
   }
 }
