@@ -5,6 +5,11 @@ Currently there are 3 predefined types: `url`, `phone` and `email`.
 
 All the props are passed down to a new `Text` Component if there is a matching text. If those are functions they will receive as param the value of the text.
 
+## Install
+
+`npm install --save react-native-parsed-text`
+
+
 ## Proptypes
 
 `ParsedText` can receive [Text PropTypes](https://facebook.github.io/react-native/docs/text.html).
@@ -139,10 +144,6 @@ const styles = StyleSheet.create({
 ```
 
 ![](https://cloud.githubusercontent.com/assets/159813/11152673/d5fe86f0-89e8-11e5-8b5e-f3c06bdc1b6b.gif)
-
-## Install
-
-`npm install --save react-native-parsed-text`
 
 ## TODO
 
