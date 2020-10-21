@@ -121,12 +121,17 @@ class TextExtraction {
         return;
       }
 
-      if (typeof matchedPattern[key] === 'function') {
+      const value = matchedPattern[key];
+      const isFunction = typeof value === 'function';
+
+      if (key === 'style') {
+        props[key] = isFunction ? value(text, index) : value;
+      } else if (isFunction) {
         // Support onPress / onLongPress functions
-        props[key] = () => matchedPattern[key](text, index);
+        props[key] = () => value(text, index);
       } else {
         // Set a prop with an arbitrary name to the value in the match-config
-        props[key] = matchedPattern[key];
+        props[key] = value;
       }
     });
 

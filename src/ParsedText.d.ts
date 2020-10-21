@@ -5,10 +5,13 @@ declare module 'react-native-parsed-text' {
   interface BaseParseShape
     extends Pick<
       TextProps,
-      Exclude<keyof TextProps, 'onPress' | 'onLongPress'>
+      Exclude<keyof TextProps, 'style' | 'onPress' | 'onLongPress'>
     > {
     /** arbitrary function to rewrite the matched string into something else */
     renderText?: (matchingString: string, matches: string[]) => string;
+    style?:
+      | TextProps['style']
+      | ((text: string, index: number) => TextProps['style']);
     onPress?: (text: string, index: number) => void;
     onLongPress?: (text: string, index: number) => void;
   }
