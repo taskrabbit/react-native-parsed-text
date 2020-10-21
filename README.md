@@ -39,6 +39,14 @@ import ParsedText from 'react-native-parsed-text';
 class Example extends React.Component {
   static displayName = 'Example';
 
+  getEmailStyle(email, matchIndex /*: number*/) {
+    if (email.includes('@gmail.com')) {
+      return [styles.email, styles.gmail];
+    }
+
+    return styles.email;
+  }
+
   handleUrlPress(url, matchIndex /*: number*/) {
     LinkingIOS.openURL(url);
   }
@@ -71,7 +79,7 @@ class Example extends React.Component {
             [
               {type: 'url',                       style: styles.url, onPress: this.handleUrlPress},
               {type: 'phone',                     style: styles.phone, onPress: this.handlePhonePress},
-              {type: 'email',                     style: styles.email, onPress: this.handleEmailPress},
+              {type: 'email',                     style: this.getEmailStyle, onPress: this.handleEmailPress},
               {pattern: /Bob|David/,              style: styles.name, onPress: this.handleNamePress},
               {pattern: /\[(@[^:]+):([^\]]+)\]/i, style: styles.username, onPress: this.handleNamePress, renderText: this.renderText},
               {pattern: /42/,                     style: styles.magicNumber},
@@ -105,6 +113,9 @@ const styles = StyleSheet.create({
 
   email: {
     textDecorationLine: 'underline',
+  },
+  gmail: {
+    color: 'orange',
   },
 
   text: {
