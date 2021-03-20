@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View, Pressable } from 'react-native';
 import PropTypes from 'prop-types';
 
 import TextExtraction from './lib/TextExtraction';
@@ -109,26 +109,39 @@ class ParsedText extends React.Component {
 
     return textExtraction.parse().map((props, index) => {
       const { style: parentStyle } = this.props;
-      const { style, ...remainder } = props;
+      const { style, onPress = null, onLongPress = null, ...remainder } = props;
+      const isNormalText = typeof onPress !== 'function';
+      const ParentComponent = isNormalText ? View : Pressable;
       return (
-        <Text
+        <ParentComponent
           key={`parsedText-${index}`}
-          style={[parentStyle, style]}
-          {...this.props.childrenProps}
-          {...remainder}
-        />
+          onPress={onPress}
+          onLongPress={onLongPress}
+        >
+          <Text
+            style={[parentStyle, style]}
+            {...this.props.childrenProps}
+            {...remainder}
+          />
+        </ParentComponent>
       );
     });
   }
 
   render() {
     // Discard custom props before passing remainder to Text
-    const { parse, childrenProps, ...remainder } = { ...this.props };
+    const { parse, childrenProps, style = {}, ...remainder } = {
+      ...this.props,
+    };
 
     return (
-      <Text ref={(ref) => (this._root = ref)} {...remainder}>
+      <View
+        ref={(ref) => (this._root = ref)}
+        style={[{ flexDirection: 'row', flexWrap: 'wrap' }, style]}
+        {...remainder}
+      >
         {this.getParsedText()}
-      </Text>
+      </View>
     );
   }
 }
