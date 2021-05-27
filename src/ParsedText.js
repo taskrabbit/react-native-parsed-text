@@ -94,6 +94,10 @@ class ParsedText extends React.Component {
     });
   }
 
+  getMatches() {
+    return this.textExtraction.parse()
+  }
+
   getParsedText() {
     if (!this.props.parse) {
       return this.props.children;
@@ -102,12 +106,12 @@ class ParsedText extends React.Component {
       return this.props.children;
     }
 
-    const textExtraction = new TextExtraction(
+    this.textExtraction = new TextExtraction(
       this.props.children,
       this.getPatterns(),
     );
 
-    return textExtraction.parse().map((props, index) => {
+    return this.textExtraction.parse().map((props, index) => {
       const { style: parentStyle } = this.props;
       const { style, ...remainder } = props;
       return (
