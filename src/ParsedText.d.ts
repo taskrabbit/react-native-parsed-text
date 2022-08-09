@@ -34,7 +34,7 @@ declare module 'react-native-parsed-text' {
     nonExhaustiveModeMaxMatchCount?: number;
   }
 
-  type ParseShape = DefaultParseShape | CustomParseShape;
+  export type ParseShape = DefaultParseShape | CustomParseShape;
 
   export interface ParsedTextProps extends TextProps {
     parse?: ParseShape[];
