@@ -2,13 +2,17 @@
   "name": "react-native-parsed-text",
   "version": "0.0.22",
   "description": "Parse text and make them into multiple React Native Text elements",
-  "main": "src/ParsedText.js",
+  "source": "src/ParsedText.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.module.js",
   "types": "src/ParsedText.d.ts",
   "scripts": {
     "prettier": "prettier",
     "prettier:all": "prettier --write '**/*.json' '**/*.js' '**/*.ts' ",
     "lint": "eslint",
-    "test": "jest"
+    "test": "jest",
+    "build": "microbundle --generateTypes false",
+    "prepublishOnly": "npm run build"
   },
   "bugs": {
     "url": "https://github.com/taskrabbit/react-native-parsed-text/issues"
@@ -38,6 +42,7 @@
     "eslint": "7.2.x",
     "jest": "26.0.x",
     "metro-react-native-babel-preset": "0.57.x || 0.58.x || 0.59.x",
+    "microbundle": "^0.15.1",
     "prettier": "2.0.x",
     "react": "16.13.x",
     "react-native": "0.62.x",
